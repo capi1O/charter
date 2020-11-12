@@ -142,13 +142,14 @@ class Slice {
 	drawGradient (gradient) {
 		let angleShift;
 		switch (typeof gradient) {
-			case 'string': 
+			case 'string':
 				angleShift = gradient === 'radial' ? 90 : 0;
 				break;
-			case 'number': 
+			case 'number':
 				angleShift = gradient;
 				break;
 			default:
+				angleShift = 0;
 				break;
 		}
 
@@ -157,7 +158,7 @@ class Slice {
 		defs.appendTo(this.svgId);
 		const linearGradient = new SVGElement('linearGradient', {
 			id: gradientId,
-			gradientTransform: `rotate(${this.angleStart + angleShift})`
+			gradientTransform: `rotate(${this.angleStart + angleShift} 0.5 0.5)`
 		});
 		const stop1 = new SVGElement('stop', { offset: '0%', 'stop-color': Color(this.color).darken(0.5) });
 		const stop2 = new SVGElement('stop', { offset: '100%', 'stop-color': this.color });
