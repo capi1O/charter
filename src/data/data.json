@@ -1,0 +1,147 @@
+[{
+		"name": "shoes & apparel",
+		"description": "shoes & apparel",
+		"type": "product",
+		"company": "mitsubishi",
+		"category": "software",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "automotive",
+		"description": "automotive",
+		"type": "product",
+		"company": "mitsubishi",
+		"category": "software",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "smartphone & accessories",
+		"description": "smarpthone & accessories",
+		"type": "product",
+		"company": "mitsubishi",
+		"category": "software",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "consumer electronics",
+		"description": "consumer electronics",
+		"type": "product",
+		"company": "mitsubishi",
+		"category": "software",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "food & groceries",
+		"description": "food & groceries",
+		"type": "product",
+		"company": "mitsubishi",
+		"category": "software",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "remote assistance",
+		"description": "remote assistance",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "software management",
+		"description": "software management",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "alarm systems",
+		"description": "alarm systems",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "it",
+		"description": "it",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "videoprotection",
+		"description": "videoprotection",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "iot",
+		"description": "iot",
+		"type": "service",
+		"company": "syntec",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	},
+	{
+		"name": "financial services",
+		"description": "financial services",
+		"type": "service",
+		"company": "101",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "design & prototyping",
+		"description": "design & prototyping",
+		"type": "service",
+		"company": "101",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "high speed trading",
+		"description": "high speed trading",
+		"type": "service",
+		"company": "goliath",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "market share",
+		"description": "market share",
+		"type": "service",
+		"company": "goliath",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "subprimes reedeem",
+		"description": "subprimes reedeem",
+		"type": "service",
+		"company": "goliath",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "variable output",
+		"description": "variable output",
+		"type": "service",
+		"company": "goliath",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}, {
+		"name": "quantitative easing",
+		"description": "quantitative easing",
+		"type": "service",
+		"company": "goliath",
+		"category": "local business",
+		"scope": "business to customer",
+		"division": "core business"
+	}
+]
