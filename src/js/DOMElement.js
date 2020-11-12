@@ -14,13 +14,13 @@ class DOMElement {
 		this.element = element;
 	}
 
-	appendTo(id) {
+	appendTo = (id) => {
 		document.getElementById(id).appendChild(this.element);
-	}
+	};
 
-	appendChild(child) {
+	appendChild = (child) => {
 		this.element.appendChild(child);
-	}
+	};
 }
 
 export default DOMElement;

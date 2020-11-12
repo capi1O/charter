@@ -14,13 +14,13 @@ class SVGElement {
 		this.element = element;
 	}
 
-	appendTo(svgId) {
+	appendTo = (svgId) => {
 		document.getElementById(svgId).appendChild(this.element);
-	}
+	};
 
-	appendChild(child) {
+	appendChild = (child) => {
 		this.element.appendChild(child);
-	}
+	};
 }
 
 export default SVGElement;

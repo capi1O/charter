@@ -66,13 +66,13 @@ class Slice {
 		this.clicked = false;
 	}
 
-	translationVector(shift = 10) {
+	translationVector = (shift = 10) => {
 		const angle = this.angleStart + this.angleValue / 2;
 		const directionPoint = polarToCartesian(this.doughnutCenter, shift, angle);
 		return ({ x: directionPoint.x - this.doughnutCenter.x, y: directionPoint.y - this.doughnutCenter.y });
-	}
+	};
 
-	onClick ({ target }) { // use currentTarget ?
+	onClick = ({ target }) => { // use currentTarget ?
 		// const sliceId = $(target).attr('id'); // const sliceId = target.getAttributeNS(null, 'id');
 		// console.log(`${sliceId} clicked`);
 		// console.log(this);
@@ -96,30 +96,27 @@ class Slice {
 		});
 
 		if (this.onClickCallback) this.onClickCallback();
-	}
+	};
 
-	onHover (flag) {
-		const that = this;
-
-		return function ({ target }) { // use currentTarget ?
+	onHover = (flag) => ({ target }) => { // use currentTarget ?
 		// const sliceId = $(target).attr('id'); // const sliceId = target.getAttributeNS(null, 'id');
 		// console.log(`${sliceId} hovered ${flag ? 'in' : 'out'}`);
 
-		effectHandler(that.onHoverEffect, {
+		effectHandler(this.onHoverEffect, {
 			darken: () => $(target).fadeTo(300, flag ? 0.5 : 1.0),
-			shadow: () => $(target).css('filter', flag ? `url(#${that.id}-shadow)` : 'none'),
+			shadow: () => $(target).css('filter', flag ? `url(#${this.id}-shadow)` : 'none'),
 			slide: () => {
-				const { x, y } = that.translationVector(10);
+				const { x, y } = this.translationVector(10);
 					if (flag) $(target).css('transform', `translate(${x}px, ${y}px)`);
 					else $(target).css('transform', 'translate(0px, 0px)');
 				}
 		});
 
-		if (that.onHoverCallback) that.onHoverCallback();
-	};}
+		if (this.onHoverCallback) this.onHoverCallback();
+	};
 
 
-	drawPath (svgId, gradient) {
+	drawPath = (svgId, gradient) => {
 		const path = new SVGElement('path', {
 			id: `${this.id}-path`,
 			d: this.path,
@@ -132,14 +129,14 @@ class Slice {
 			valueReal: this.realValue,
 			valueParent:  this.id
 		}, {
-			click: this.onClick.bind(this),
+			click: this.onClick,
 			mouseover: this.onHover(true),
 			mouseout: this.onHover(false)
 		});
 		path.appendTo(svgId);
-	}
+	};
 
-	drawGradient (gradient) {
+	drawGradient = (gradient) => {
 		let angleShift;
 		switch (typeof gradient) {
 			case 'string':
@@ -165,9 +162,9 @@ class Slice {
 		linearGradient.appendChild(stop1.element);
 		linearGradient.appendChild(stop2.element);
 		defs.appendChild(linearGradient.element);
-	}
+	};
 
-	drawDot (point, size = 5) {
+	drawDot = (point, size = 5) => {
 		const dot = new SVGElement('circle', {
 			cx: point.x,
 			cy: point.y,
@@ -176,9 +173,9 @@ class Slice {
 		});
 
 		dot.appendTo(this.svgId);
-	}
+	};
 
-	drawText (text) {
+	drawText = (text) => {
 		const sliceHeight = this.outerRadius - this.innerRadius;
 
 		// A. radial text
@@ -265,9 +262,9 @@ class Slice {
 			span.element.textContent = text;
 			div.appendChild(span.element);
 		}
-	}
+	};
 
-	prepareEffect (hidden) {
+	prepareEffect = (hidden) => {
 
 		if (this.onClickCallback || this.onClickEffect) $(`#${this.id}-path`).css('cursor', 'pointer');
 
@@ -306,17 +303,17 @@ class Slice {
 			},
 			slide: () => $(`#${this.id}-path`).css('transition', 'transform 0.8s ease-in-out')
 		})
-	}
+	};
 
-	hide () {
+	hide = () => {
 		$(`#${this.id}-path`).fadeTo(400, 0.0).css('transform', 'scale(0)');
-	}
+	};
 
-	show () {
+	show = () => {
 		$(`#${this.id}-path`).fadeTo(400, 1.0).css('transform', 'scale(1)');
-	}
+	};
 
-	draw (hidden = false, options) {
+	draw = (hidden = false, options) => {
 		const defaultOptions = { drawLabel: true, drawCenter: false, drawApexes: false, gradient: false };
 		const opts = { ...defaultOptions, ...options };
 		const { drawLabel, drawCenter, drawApexes, gradient } = opts;
@@ -329,7 +326,7 @@ class Slice {
 		this.drawPath(this.svgId, gradient);
 		this.prepareEffect(hidden);
 		if (drawLabel) this.drawText(this.label);
-	}
+	};
 }
 
 
