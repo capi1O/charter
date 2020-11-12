@@ -53,7 +53,7 @@ class Slice {
 		this.labelAngle = labelAngle;
 		this.labelClass = labelClass;
 		this.realValue = value;
-		this.id = id;
+		this.id = `${level}-${id}`;
 		this.innerRadius = innerRadius;
 		this.outerRadius = outerRadius;
 		this.angleStart = angleStart;
@@ -65,6 +65,9 @@ class Slice {
 		this.childrenSlices = childrenSlices;
 		this.clicked = false;
 	}
+
+	// id = () => `${this.level}-${this.id}`;
+
 
 	translationVector = (shift = 10) => {
 		const angle = this.angleStart + this.angleValue / 2;

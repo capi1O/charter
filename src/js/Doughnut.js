@@ -190,7 +190,7 @@ class Doughnut {
 
 					// update root children
 					if (levelNumber !== '0') {
-						const rootSlice = tree[levelNumber - 1].find(item => item.id === root);
+						const rootSlice = tree[levelNumber - 1].find(slice => slice.id === `${levelNumber - 1}-${root}`);
 						if (rootSlice) rootSlice.childrenSlices.push(slice);
 						else console.error(`could not find root for item ${id}`);
 					}
