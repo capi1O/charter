@@ -109,10 +109,13 @@ class Slice {
 			darken: () => $(target).fadeTo(300, flag ? 0.5 : 1.0),
 			shadow: () => $(target).css('filter', flag ? `url(#${this.id}-shadow)` : 'none'),
 			slide: () => {
+				const $container = $(`#${this.id}`)
 				const { x, y } = this.translationVector(10);
-					if (flag) $(target).css('transform', `translate(${x}px, ${y}px)`);
-					else $(target).css('transform', 'translate(0px, 0px)');
-				}
+				const transform = flag ? `translate(${x}px, ${y}px)` : 'translate(0px, 0px)';
+				$container.find('path').css('transform', transform);
+				$container.find('text').css('transform', transform);
+				$container.find('foreignObject').css('transform', transform);
+			}
 		});
 
 		if (this.onHoverCallback) this.onHoverCallback();
@@ -270,13 +273,17 @@ class Slice {
 
 	prepareEffect = (hidden) => {
 
-		if (this.onClickCallback || this.onClickEffect) $(`#${this.id}-path`).css('cursor', 'pointer');
+		const $container = $(`#${this.id}`)
+
+		if (this.onClickCallback || this.onClickEffect) $container.find('path').css('cursor', 'pointer');
 
 		// effectHandler(this.onClickEffect, { expand: () => {} });
 
 		// will be expanded
 		if (hidden) {
-			$(`#${this.id}-path`).css('transition', 'transform 0.8s ease-in-out').css('transform-origin', '50% 50%').css('transform', 'scale(0)').css('opacity', 0);
+			$container.find('path').css('transition', 'transform 0.8s ease-in-out').css('transform-origin', '50% 50%').css('transform', 'scale(0)').css('opacity', 0);
+			$container.find('text').css('transition', 'transform 0.8s ease-in-out').css('transform-origin', '50% 50%').css('transform', 'scale(0)').css('opacity', 0);
+			$container.find('foreignObject').css('transition', 'transform 0.8s ease-in-out').css('transform-origin', '50% 50%').css('transform', 'scale(0)').css('opacity', 0);
 			// transform-origin is relative to SVG element, cf https://css-tricks.com/transforms-on-svg-elements/
 		}
 
@@ -305,16 +312,26 @@ class Slice {
 					shadow.appendChild(merge);
 					this.container.appendChild(defs);
 			},
-			slide: () => $(`#${this.id}-path`).css('transition', 'transform 0.8s ease-in-out')
+			slide: () => {
+				$container.find('path').css('transition', 'transform 0.8s ease-in-out');
+				$container.find('text').css('transition', 'transform 0.8s ease-in-out');
+				$container.find('foreignObject').css('transition', 'transform 0.8s ease-in-out');
+			}
 		})
 	};
 
 	hide = () => {
-		$(`#${this.id}-path`).fadeTo(400, 0.0).css('transform', 'scale(0)');
+		const $container = $(`#${this.id}`)
+		$container.find('path').fadeTo(400, 0.0).css('transform', 'scale(0)');
+		$container.find('text').fadeTo(400, 0.0).css('transform', 'scale(0)');
+		$container.find('foreignObject').fadeTo(400, 0.0).css('transform', 'scale(0)');
 	};
 
 	show = () => {
-		$(`#${this.id}-path`).fadeTo(400, 1.0).css('transform', 'scale(1)');
+		const $container = $(`#${this.id}`)
+		$container.find('path').fadeTo(400, 1.0).css('transform', 'scale(1)');
+		$container.find('text').fadeTo(400, 1.0).css('transform', 'scale(1)');
+		$container.find('foreignObject').fadeTo(400, 1.0).css('transform', 'scale(1)');
 	};
 
 	draw = (hidden = false, options) => {
@@ -330,8 +347,8 @@ class Slice {
 		if (drawApexes) this.points.forEach(point => this.drawDot(point));
 		if (gradient) this.drawGradient(gradient);
 		this.drawPath(this.svgId, gradient);
-		this.prepareEffect(hidden);
 		if (drawLabel) this.drawText(this.label);
+		this.prepareEffect(hidden);
 	};
 }
 
