@@ -19,7 +19,7 @@ class DOMElement {
 	};
 
 	appendChild = (child) => {
-		this.element.appendChild(child);
+		this.element.appendChild(child.element);
 	};
 }
 

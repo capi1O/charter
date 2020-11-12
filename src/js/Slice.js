@@ -136,7 +136,7 @@ class Slice {
 			mouseover: this.onHover(true),
 			mouseout: this.onHover(false)
 		});
-		path.appendTo(svgId);
+		this.container.appendChild(path);
 	};
 
 	drawGradient = (gradient) => {
@@ -155,16 +155,16 @@ class Slice {
 
 		const gradientId = `${this.id}-gradient`; // cannot define at level level because gradientTransform attribute is specific
 		const defs = new SVGElement('defs', {}); // TODO : reus <defs /> if already one (multiple <defs /> are valid though https://stackoverflow.com/questions/44226035/are-multiple-defs-allowed-in-svg-documents)
-		defs.appendTo(this.svgId);
 		const linearGradient = new SVGElement('linearGradient', {
 			id: gradientId,
 			gradientTransform: `rotate(${this.angleStart + angleShift} 0.5 0.5)`
 		});
 		const stop1 = new SVGElement('stop', { offset: '0%', 'stop-color': Color(this.color).darken(0.5) });
 		const stop2 = new SVGElement('stop', { offset: '100%', 'stop-color': this.color });
-		linearGradient.appendChild(stop1.element);
-		linearGradient.appendChild(stop2.element);
-		defs.appendChild(linearGradient.element);
+		linearGradient.appendChild(stop1);
+		linearGradient.appendChild(stop2);
+		defs.appendChild(linearGradient);
+		this.container.appendChild(defs);
 	};
 
 	drawDot = (point, size = 5) => {
@@ -175,7 +175,7 @@ class Slice {
 			fill: 'black'
 		});
 
-		dot.appendTo(this.svgId);
+		this.container.appendChild(dot);
 	};
 
 	drawText = (text) => {
@@ -196,16 +196,16 @@ class Slice {
 			const { path: pathString } = svgArc(this.doughnutCenter, startRadius, this.angleStart, this.angleValue);
 			const textpathId = `${this.id}-textpath`;
 			const defs = new SVGElement('defs', {}); // TODO : reus <defs /> if already one (multiple <defs /> are valid though https://stackoverflow.com/questions/44226035/are-multiple-defs-allowed-in-svg-documents)
-			defs.appendTo(this.svgId);
 			const path = new SVGElement('path', { d: pathString, id: textpathId, fill: 'none', stroke: 'black' });
-			defs.appendChild(path.element);
+			defs.appendChild(path);
+			this.container.appendChild(defs);
 
 			// 3. build textpath
 			const text = new SVGElement('text', { 'text-anchor': 'middle' });
-			text.appendTo(this.svgId);
 			const textPath = new SVGElement('textPath', { href: `#${textpathId}`, class: this.labelClass, startOffset: '50%', 'font-size': fontSize });
 			textPath.element.textContent = this.label;
-			text.appendChild(textPath.element);
+			text.appendChild(textPath);
+			this.container.appendChild(text);
 		}
 
 		// B. Text in rect
@@ -250,20 +250,21 @@ class Slice {
 			}
 
 			const foreignObject = new SVGElement('foreignObject', { x, y, width, height });
-			foreignObject.appendTo(this.svgId);
 
 			const body = new DOMElement('body', {
 				xmlns: 'http://www.w3.org/1999/xhtml',
 				style: `transform: rotate(${this.labelAngle}deg)`
 			});
-			foreignObject.appendChild(body.element);
+			foreignObject.appendChild(body);
 
 			const div = new DOMElement('div');
-			body.appendChild(div.element);
+			body.appendChild(div);
 
 			const span = new DOMElement('span', { class: this.labelClass });
 			span.element.textContent = text;
-			div.appendChild(span.element);
+			div.appendChild(span);
+
+			this.container.appendChild(foreignObject);
 		}
 	};
 
@@ -290,19 +291,19 @@ class Slice {
 					const offset = new SVGElement('feOffset', { dx: x * - 1, dy: y * -1, result: 'offsetblur' });
 					const transfer = new SVGElement('feComponentTransfer', {});
 					const func = new SVGElement('feFuncA', { type: 'linear', slope: '0.5' }); // shadow opacity
-					transfer.appendChild(func.element);
+					transfer.appendChild(func);
 					const merge = new SVGElement('feMerge', {});
 					const node1 = new SVGElement('feMergeNode', {});
 					const node2 = new SVGElement('feMergeNode', { in: 'SourceGraphic' });
-					merge.appendChild(node1.element);
-					merge.appendChild(node2.element);
+					merge.appendChild(node1);
+					merge.appendChild(node2);
 
-					defs.appendChild(shadow.element);
-					shadow.appendChild(blur.element);
-					shadow.appendChild(offset.element);
-					shadow.appendChild(transfer.element);
-					shadow.appendChild(merge.element);
-					defs.appendTo(this.svgId);
+					defs.appendChild(shadow);
+					shadow.appendChild(blur);
+					shadow.appendChild(offset);
+					shadow.appendChild(transfer);
+					shadow.appendChild(merge);
+					this.container.appendChild(defs);
 			},
 			slide: () => $(`#${this.id}-path`).css('transition', 'transform 0.8s ease-in-out')
 		})
@@ -321,7 +322,9 @@ class Slice {
 		const opts = { ...defaultOptions, ...options };
 		const { drawLabel, drawCenter, drawApexes, gradient } = opts;
 
-		// test if (this.largestRect) this.drawDot({ x: this.largestRect.cx, y: this.largestRect.cy });
+		const container = new SVGElement('g', { id: this.id });
+		this.container = container;
+		container.appendTo(this.svgId);
 
 		if (drawCenter) this.drawDot(this.centroid);
 		if (drawApexes) this.points.forEach(point => this.drawDot(point));
