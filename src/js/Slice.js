@@ -89,7 +89,8 @@ class Slice {
 						if (show) childSlice.show();
 						else childSlice.hide();
 
-						if (childSlice.level < toLevel) toggleChildren(childSlice.childrenSlices, show);
+						if (show && childSlice.level < toLevel) toggleChildren(childSlice.childrenSlices, true);
+						else if (!show) toggleChildren(childSlice.childrenSlices, false);
 					});
 				};
 
