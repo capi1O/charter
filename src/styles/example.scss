@@ -3,30 +3,48 @@ body {
 }
 
 #charter-1 {
-	float : left;	
+	float: left;	
 }
 
-.breadCrumbItem {
-	width : 400px;
-	display : block;
-	font-size : 15px;
-	margin-bottom : 3px;
-	padding : 15px;
+#tooltips {
+	float: right;
+	padding: 30px;
 }
 
-.breadCrumbPercent {
-	float : right;
-}
+.tooltip {
+	width: 400px;
+	display: block;
+	// padding: 10px;
+	background-color: white;
+	font-family: 'Source Code Pro', monospace;
+	border: 1px solid #1050A2;
+	border-radius: 15px;
+	overflow: hidden;
+	margin-bottom: 20px;
 
-#breadCrumbs {
-	padding-left : 10px;
-	float : left;
+	.header {
+		// margin-top: 10px;
+		padding-left: 15px;
+		padding-right: 15px;
+
+		padding-top: 10px;
+		padding-bottom: 10px;
+
+		// border-bottom: 1px solid #1050A2;
+		box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.44);
+	}
+
+	.content {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 }
 
 foreignObject {
 	pointer-events: none;
 	overflow: visible;
 	fill: none;
+	color: black;
 
 	body {
 		width: 100%;

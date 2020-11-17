@@ -40,6 +40,7 @@ const levels = [{
 		radius: 210,
 		labelAngle: 0,
 		labelClass: 'l4',
+		tooltip: true,
 		// onHoverCallback: (item) => { console.log(item.id) },
 		onHoverEffect: ['shadow', 'darken', 'slide'],
 		// onClickCallback: (item) => { console.log(item.root) },
@@ -52,4 +53,4 @@ const levels = [{
 ];
 
 
-new Doughnut('charter-1', levels, items);
+new Doughnut('charter-1', 'tooltips', levels, items);

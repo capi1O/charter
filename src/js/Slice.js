@@ -27,7 +27,8 @@ class Slice {
 		onHoverEffect,
 		onClickCallback,
 		onClickEffect,
-		childrenSlices) {
+		childrenSlices,
+		tooltip) {
 
 		if (angleValue == 360) angleValue = 359.99; // ugly hack
 		const doughnutCenter = { x: doughnutRadius, y: doughnutRadius };
@@ -64,6 +65,7 @@ class Slice {
 		this.onClickEffect = onClickEffect;
 		this.childrenSlices = childrenSlices;
 		this.clicked = false;
+		this.tooltip = tooltip;
 	}
 
 	// id = () => `${this.level}-${this.id}`;
@@ -80,6 +82,7 @@ class Slice {
 		// console.log(`${sliceId} clicked`);
 		// console.log(this);
 
+		// 1. run effect
 		effectHandler(this.onClickEffect, {
 			expand: (effectObj) => {
 				const { toLevel } = effectObj;
@@ -95,19 +98,32 @@ class Slice {
 				};
 
 				toggleChildren(this.childrenSlices, !this.clicked);
-				this.clicked = !this.clicked;
+				// this.clicked = !this.clicked;
 			}
 		});
 
+		// 2. toggle state
+		this.clicked = !this.clicked;
+
+		// 3. call callback
 		if (this.onClickCallback) this.onClickCallback();
 	};
 
 	onHover = (flag) => ({ target }) => { // use currentTarget ?
+
+		// 1. show tooltip
+		if (this.tooltip) {
+			if (flag) this.tooltip.show();
+			else if (!this.clicked) this.tooltip.hide();
+		}
+
+
 		// const sliceId = $(target).attr('id'); // const sliceId = target.getAttributeNS(null, 'id');
 		// console.log(`${sliceId} hovered ${flag ? 'in' : 'out'}`);
 
+		// 2. run effect
 		effectHandler(this.onHoverEffect, {
-			darken: () => $(target).fadeTo(300, flag ? 0.5 : 1.0),
+			darken: () => $(target).fadeTo(300, this.clicked ? 0.7 : flag ? 0.5 : 1.0),
 			shadow: () => $(target).css('filter', flag ? `url(#${this.id}-shadow)` : 'none'),
 			slide: () => {
 				const $container = $(`#${this.id}`)
@@ -119,11 +135,12 @@ class Slice {
 			}
 		});
 
+		// 3. call callback
 		if (this.onHoverCallback) this.onHoverCallback();
 	};
 
 
-	drawPath = (svgId, gradient) => {
+	drawPath = (gradient) => {
 		const path = new SVGElement('path', {
 			id: `${this.id}-path`,
 			d: this.path,
@@ -347,7 +364,7 @@ class Slice {
 		if (drawCenter) this.drawDot(this.centroid);
 		if (drawApexes) this.points.forEach(point => this.drawDot(point));
 		if (gradient) this.drawGradient(gradient);
-		this.drawPath(this.svgId, gradient);
+		this.drawPath(gradient);
 		if (drawLabel) this.drawText(this.label);
 		this.prepareEffect(hidden);
 	};
